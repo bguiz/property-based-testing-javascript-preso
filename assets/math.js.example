@@ -1,0 +1,79 @@
+// math.js
+'use strict';
+
+// This is the system under test
+
+module.exports = {
+ sum,
+};
+
+function sum (a, b) {
+
+ const result = a + b;
+ return result;
+
+ //FIXME: handle any stray NaN results
+ // return isNaN(result) ? null : result;
+}
+
+// math.ppty.jest.js
+'use strict';
+
+const testcheck = require('testcheck');
+const pptyTestUtil = require('jest-object/property-test-util-testcheck.js');
+
+const math = require('./math.js');
+
+describe('[math.sum]', () => {
+
+ describe('[is commutative]', () => {
+
+  function commutativeCheckProperty(checkOptions) {
+   const propertyAxiom = (a, b) => {
+    return math.sum(a, b) === math.sum(b, a);
+   };
+   const property = testcheck.property(
+    testcheck.gen.number, testcheck.gen.number,
+    propertyAxiom);
+   const result =  testcheck.check(property, checkOptions);
+   return result;
+  }
+
+  pptyTestUtil.seededPropertyTestFactory({
+   checkProperty: commutativeCheckProperty,
+   absoluteFileName: __filename,
+   options: {
+    noDuplicateShrunk: true,
+    // debug: true,
+   },
+  });
+
+ });
+
+});
+
+
+// math.ppty.jest.js.snap
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[math.sum] [is commutative] [generated examples] seed 1502080610615 1`] = `
+{
+  "fail": "[-Infinity, Infinity]",
+  "failingSize": 27,
+  "numTests": 28,
+  "result": false,
+  "seed": 1502080610615,
+  "shrunk": {
+    "depth": 0,
+    "result": false,
+    "smallest": "[-Infinity, Infinity]",
+    "totalNodesVisited": 0
+  }
+}
+`;
+
+exports[`[math.sum] [is commutative] [generated examples] seed failed list 1`] = `
+[
+  1502080610615
+]
+`;
