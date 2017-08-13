@@ -1,4 +1,4 @@
-# Property-based testing in Javscript
+# Property-based testing in Javascript
 
 A presentation using [spectacle](https://github.com/FormidableLabs/spectacle).
 
